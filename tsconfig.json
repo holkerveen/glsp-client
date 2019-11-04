@@ -1,12 +1,11 @@
 {
-  "extends": "@eclipse-glsp/ts-config",
-  "include": [],
+  "extends": "./configs/base.tsconfig",
   "compilerOptions": {
-    "composite": true
+    "rootDir": "src",
+    "outDir": "lib",
+    "baseUrl": "."
   },
-  "references": [
-    {
-      "path": "./dev-packages/cli"
-    }
+  "include": [
+    "src"
   ]
 }
