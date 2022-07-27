@@ -4,5 +4,5 @@
     "noEmit": true
   },
   "exclude": ["**/node_modules", "**/.eslintrc.js"],
-  "include": ["dev-packages/*/src"]
+  "include": ["packages/*/src", "examples/*/src", "**/workflow-glsp/scripts"]
 }
