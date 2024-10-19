@@ -19,6 +19,7 @@ const path = require('path');
 const buildRoot = path.resolve(__dirname, 'lib');
 const appRoot = path.resolve(__dirname, 'app');
 var CircularDependencyPlugin = require('circular-dependency-plugin');
+const {EnvironmentPlugin} = require('webpack');
 
 /**
  * @type {import('webpack').Configuration}
@@ -63,6 +64,9 @@ module.exports = {
     },
     ignoreWarnings: [/Failed to parse source map/, /Can't resolve .* in '.*ws\/lib'/],
     plugins: [
+        new EnvironmentPlugin({
+            'EXAMPLE_PATH': null
+        }),
         new CircularDependencyPlugin({
             exclude: /(node_modules|examples)\/./,
             failOnError: false

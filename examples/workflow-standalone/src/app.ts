@@ -34,7 +34,7 @@ const diagramType = 'workflow-diagram';
 
 const loc = window.location.pathname;
 const currentDir = loc.substring(0, loc.lastIndexOf('/'));
-const examplePath = resolve(join(currentDir, '../app/example1.wf'));
+const examplePath = process.env.EXAMPLE_PATH || resolve(join(currentDir, '../app/example1.wf'));
 const clientId = 'sprotty';
 
 const webSocketUrl = `ws://localhost:${port}/${id}`;
