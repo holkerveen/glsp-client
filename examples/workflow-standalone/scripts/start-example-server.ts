@@ -23,8 +23,29 @@ const serverDirPath = path.resolve(__dirname, '..', 'server');
 async function run() {
     const serverFile = await downloadIfNecessary();
     console.log();
+
+    let port = 8081;
+    const portIndex = process.argv.indexOf('--port');
+    if (portIndex >= 0) {
+        port = parseInt(process.argv[portIndex + 1]);
+    }
+    if(isNaN(port)) {
+        console.error('Invalid port number');
+        process.exit(1);
+    }
+
+    let host = 'localhost';
+    const hostIndex = process.argv.indexOf('--host');
+    if(portIndex >= 0) {
+        host = process.argv[hostIndex + 1];
+    }
+    if(typeof host !== 'string') {
+        console.error('Invalid host');
+        process.exit(1);
+    }
+
     sh.cd(serverDirPath);
-    sh.exec(`node ${serverFile} -w -p 8081`);
+    sh.exec(`node ${serverFile} -w --port ${port} --host ${host}`);
 }
 
 async function downloadIfNecessary(): Promise<string> {
