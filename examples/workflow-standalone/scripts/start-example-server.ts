@@ -24,25 +24,8 @@ async function run() {
     const serverFile = await downloadIfNecessary();
     console.log();
 
-    let port = 8081;
-    const portIndex = process.argv.indexOf('--port');
-    if (portIndex >= 0) {
-        port = parseInt(process.argv[portIndex + 1]);
-    }
-    if(isNaN(port)) {
-        console.error('Invalid port number');
-        process.exit(1);
-    }
-
-    let host = 'localhost';
-    const hostIndex = process.argv.indexOf('--host');
-    if(portIndex >= 0) {
-        host = process.argv[hostIndex + 1];
-    }
-    if(typeof host !== 'string') {
-        console.error('Invalid host');
-        process.exit(1);
-    }
+    const port = parsePortArg();
+    const host = parseHostArg();
 
     sh.cd(serverDirPath);
     sh.exec(`node ${serverFile} -w --port ${port} --host ${host}`);
@@ -91,6 +74,32 @@ async function downloadIfNecessary(): Promise<string> {
     fs.rmSync(tempDir, { force: true, recursive: true });
     fs.rmSync(path.resolve(serverDirPath, tarBall), { force: true });
     return `${config.fileName}-${version}.js`;
+}
+
+function parsePortArg(): number {
+    let port = 8081;
+    const portIndex = process.argv.indexOf('--port');
+    if (portIndex >= 0) {
+        port = parseInt(process.argv[portIndex + 1]);
+    }
+    if(isNaN(port)) {
+        console.error('Invalid port number');
+        process.exit(1);
+    }
+    return port;
+}
+
+function parseHostArg(): string {
+    let host = 'localhost';
+    const hostIndex = process.argv.indexOf('--host');
+    if(hostIndex >= 0) {
+        host = process.argv[hostIndex + 1];
+    }
+    if(typeof host !== 'string') {
+        console.error('Invalid host');
+        process.exit(1);
+    }
+    return host;
 }
 
 run();
